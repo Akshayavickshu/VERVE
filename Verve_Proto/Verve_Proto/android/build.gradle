@@ -1,0 +1,35 @@
+// Project-level build.gradle.kts
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // ✅ Add this line for Crashlytics
+        classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.9")
+        classpath("com.android.tools.build:gradle:8.3.0") // ✅ Update this
+
+        // ✅ Already present or needed
+        classpath("com.google.gms:google-services:4.4.1")
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+
+rootProject.buildDir = "../build"
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(":app")
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
